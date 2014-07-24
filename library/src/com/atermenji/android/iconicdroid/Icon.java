@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Artur Termenji
+ * Copyright (C) 2014 Igor Tkach
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.atermenji.android.iconicdroid.icon;
+package com.atermenji.android.iconicdroid;
 
-import android.content.Context;
 import android.graphics.Typeface;
 
-import java.io.Serializable;
+public class Icon {
 
-/**
- * An interface which every icon font wrapper should implement.
- */
-public interface Icon extends Serializable {
-
-    /**
-     * Gets a {@link Typeface} for an Icon.
-     * 
-     * @param context
-     * @return {@link Typeface}
-     */
-    public Typeface getTypeface(final Context context);
-
-    /**
-     * Returns UTF value of an Icon.
-     * 
-     * @return UTF value of an Icon
-     */
-    public int getIconUtfValue();
-
+	public final Typeface typeface;
+	public final int codePoint;
+	
+	public Icon(Typeface typeface, int codePoint) {
+		this.typeface = typeface;
+		this.codePoint = codePoint;
+	}
 }

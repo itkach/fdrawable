@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2013 Artur Termenji
- *
+ * Copyright (C) 2014 Igor Tkach
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,18 +16,19 @@
  */
 package com.atermenji.android.iconicdroid;
 
-import android.content.Context;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-
-import com.atermenji.android.iconicdroid.icon.Icon;
 
 /**
  * A custom {@link Drawable} which can display icons from icon fonts.
  */
 public class IconicFontDrawable extends Drawable {
-
-    private Context mContext;
 
     private Paint mIconPaint;
     private Paint mContourPaint;
@@ -47,8 +49,7 @@ public class IconicFontDrawable extends Drawable {
     private Icon mIcon;
     private char[] mIconUtfChars;
 
-    public IconicFontDrawable(Context context) {
-        mContext = context.getApplicationContext();
+    public IconicFontDrawable() {
 
         mIconPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -59,11 +60,6 @@ public class IconicFontDrawable extends Drawable {
 
         mPathBounds = new RectF();
         mPaddingBounds = new Rect();
-    }
-
-    public IconicFontDrawable(Context context, final Icon icon) {
-        this(context);
-        updateIcon(icon);
     }
 
     /**
@@ -217,8 +213,8 @@ public class IconicFontDrawable extends Drawable {
 
     private void updateIcon(Icon icon) {
         mIcon = icon;
-        mIconUtfChars = Character.toChars(icon.getIconUtfValue());
-        mIconPaint.setTypeface(mIcon.getTypeface(mContext));
+        mIconUtfChars = Character.toChars(icon.codePoint);
+        mIconPaint.setTypeface(icon.typeface);
     }
 
     private void updatePaddingBounds(Rect viewBounds) {

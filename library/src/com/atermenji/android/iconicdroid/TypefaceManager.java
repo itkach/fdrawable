@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Artur Termenji
+ * Copyright (C) 2014 Igor Tkach
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,140 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.atermenji.android.iconicdroid.util;
+package com.atermenji.android.iconicdroid;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import android.content.Context;
-import android.content.res.Resources.NotFoundException;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.util.Log;
-
-import com.atermenji.android.iconicdroid.R;
 
 /**
- * Helper class that wraps icon fonts and manages {@link Typeface} loading.
+ * Helper class that creates {@link Typeface} instances from assets and caches them.
  */
 public class TypefaceManager {
 
-    private static final String TAG = "TypefaceManager";
+    private AssetManager assetManager;
 
-    private TypefaceManager() {
+	public TypefaceManager(AssetManager assetManager) {
+    	this.assetManager = assetManager; 
     }
-
-    public enum IconicTypefaceRaw {
-
-        ENTYPO(R.raw.entypo), 
-        ENTYPO_SOCIAL(R.raw.entypo_social),
-        FONT_AWESOME(R.raw.font_awesome);
-
-        private final int mTypefaceResourceId;
-        private Typeface mTypeface;
-
-        private IconicTypefaceRaw(int typefaceResourceId) {
-            mTypefaceResourceId = typefaceResourceId;
-        }
-
-        /**
-         * Loads a {@link Typeface} for the given icon font. 
-         * {@link Typeface} is loaded only once to avoid memory consumption.
-         * 
-         * @param context
-         * @return {@link Typeface}
-         */
-        public Typeface getTypeface(final Context context) {
-            if (mTypeface == null) {
-                mTypeface = createTypefaceFromResource(context, mTypefaceResourceId);
-            }
-
-            return mTypeface;
-        }
-    }
-
-    public enum IconicTypefaceAsset {
-
-        ICONIC("iconic.ttf");
-
-        private final String mTypefaceAssetName;
-        private Typeface mTypeface;
-
-        private IconicTypefaceAsset(final String typefaceAssetName) {
-            mTypefaceAssetName = typefaceAssetName;
-        }
-
-        /**
-         * Loads a {@link Typeface} for the given icon font. 
-         * {@link Typeface} is loaded only once to avoid memory consumption.
-         * 
-         * @param context
-         * @return {@link Typeface}
-         */
-        public Typeface getTypeface(final Context context) {
-            if (mTypeface == null) {
-                mTypeface = createTypefaceFromAsset(context, mTypefaceAssetName);
-            }
-
-            return mTypeface;
-        }
-    }
-
-    private static Typeface createTypefaceFromResource(final Context context, final int resource) {
-        Typeface typeface = null;
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
-        try {
-            inputStream = context.getResources().openRawResource(resource);
-        } catch (NotFoundException ex) {
-            Log.e(TAG, "Could not find typeface in resources.", ex);
-        }
-
-        String outPath = context.getCacheDir() + "/tmp.raw";
-
-        try {
-            byte[] buffer = new byte[inputStream.available()];
-            outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
-
-            int l = 0;
-            while ((l = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, l);
-            }
-
-            typeface = Typeface.createFromFile(outPath);
-
-            new File(outPath).delete();
-        } catch (IOException ex) {
-            Log.e(TAG, "Error reading typeface from resource.", ex);
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            } catch (IOException ex) {
-                Log.e(TAG, "Error closing typeface streams.", ex);
-            }
-        }
-
-        return typeface;
-    }
-
-    private static Typeface createTypefaceFromAsset(final Context context, final String assetName) {
-        Typeface typeface = null;
-
-        try {
-            typeface = Typeface.createFromAsset(context.getAssets(), assetName);
-        } catch (Exception ex) {
-            Log.e(TAG, "Could not load typeface from assets.", ex);
-        }
-
-        return typeface;
+        
+    private Map<String, Typeface> typefaces = new HashMap<String, Typeface>();
+    
+    public Typeface get(String fontAssetName) {
+    	Typeface typeface = typefaces.get(fontAssetName);
+    	if (typeface == null) {
+    		typeface = Typeface.createFromAsset(this.assetManager, fontAssetName);
+    		typefaces.put(fontAssetName, typeface);
+    	}
+    	return typeface;
     }
 }
