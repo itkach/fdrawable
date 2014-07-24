@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.atermenji.android.iconicdroid;
+package itkach.fdrawable;
 
 import android.graphics.Typeface;
 
@@ -21,7 +21,7 @@ public class Icon {
 
 	public final Typeface typeface;
 	public final int codePoint;
-	
+
 	public Icon(Typeface typeface, int codePoint) {
 		this.typeface = typeface;
 		this.codePoint = codePoint;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.atermenji.android.iconicdroid;
+package itkach.fdrawable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +29,11 @@ public class TypefaceManager {
     private AssetManager assetManager;
 
 	public TypefaceManager(AssetManager assetManager) {
-    	this.assetManager = assetManager; 
+    	this.assetManager = assetManager;
     }
-        
+
     private Map<String, Typeface> typefaces = new HashMap<String, Typeface>();
-    
+
     public Typeface get(String fontAssetName) {
     	Typeface typeface = typefaces.get(fontAssetName);
     	if (typeface == null) {

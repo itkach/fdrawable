@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2013 Artur Termenji
- * Copyright (C) 2014 Igor Tkach
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,8 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package com.atermenji.android.iconicdroid;
+
+/**
+This is original IconicFontDrawable from https://github.com/atermenji/IconicDroid
+modified to user itkach.fdrawable.Icon instead of
+com.atermenji.android.iconicdroid.icon.Icon interface.
+
+ */
+
+package itkach.fdrawable;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
