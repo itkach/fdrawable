@@ -1,0 +1,15 @@
+* FDrawable
+  FDrawable is a rehash of [[https://github.com/atermenji/IconicDroid][IconicDroid]] which uses a different
+  approach to accessing icon fonts such as [[http://fontawesome.io][Font Awesome]].
+
+  IconicDroid provides the essential drawable
+  implementation [[https://github.com/atermenji/IconicDroid/blob/46612af9bedf3ef3e85f3b22044898a54a1348f7/library/src/com/atermenji/android/iconicdroid/IconicFontDrawable.java][IconicFontDrawable]], but it also includes several
+  specific fonts and enumerates glyphs they provide. This makes it
+  impossible to use other fonts are newer versions of included fonts
+  withoug modifying the library itself. With FDrawable, users
+  register their font assets and create drawable for desired symbol
+  simply by specifying symbols Unicode code point.
+
+  IconicDroid is packaged as Android library in apklib format, which
+  is now deprecated. FDrawable is packaged as .aar and is built with
+  [[http://www.gradle.org][Gradle]].
