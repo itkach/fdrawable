@@ -70,6 +70,11 @@ public class IconicFontDrawable extends Drawable {
         mPaddingBounds = new Rect();
     }
 
+    public IconicFontDrawable(Icon icon) {
+        this();
+        setIcon(icon);
+    }
+
     /**
      * Loads and draws given {@link Icon}.
      *
